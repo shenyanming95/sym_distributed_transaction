@@ -19,6 +19,7 @@ public class StorageApplication {
                 new ClassPathXmlApplicationContext("spring-dubbo-storage.xml");
         applicationContext.start();
         // keep alive
-        KeepAlive.sync();
+        // KeepAlive.sync();
+        System.in.read();
     }
 }

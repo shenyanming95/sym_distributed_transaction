@@ -12,7 +12,7 @@ public class KeepAlive {
 
     @SneakyThrows
     public synchronized static void sync(){
-        Runtime.getRuntime().addShutdownHook(new Thread(KeepAlive::exit));
+        // Runtime.getRuntime().addShutdownHook(new Thread(KeepAlive::exit));
         LOCK_OBJECT.wait();
     }
 

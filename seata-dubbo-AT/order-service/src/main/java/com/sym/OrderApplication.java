@@ -16,6 +16,7 @@ public class OrderApplication {
                 new ClassPathXmlApplicationContext("spring-dubbo-order.xml");
         applicationContext.start();
         // 保持系统运行
-        KeepAlive.sync();
+        // KeepAlive.sync();
+        System.in.read();
     }
 }

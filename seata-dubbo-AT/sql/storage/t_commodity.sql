@@ -34,6 +34,6 @@ CREATE TABLE `t_commodity`  (
 -- ----------------------------
 -- Records of t_commodity
 -- ----------------------------
-INSERT INTO `t_commodity` VALUES (1, 'a0001', '外星人笔记本', 10, 1588680643737, 1588680643737);
+INSERT INTO t_commodity(commodity_code,commodity_name,stock) VALUES ('a001','外星人笔记本',25);
 
 SET FOREIGN_KEY_CHECKS = 1;

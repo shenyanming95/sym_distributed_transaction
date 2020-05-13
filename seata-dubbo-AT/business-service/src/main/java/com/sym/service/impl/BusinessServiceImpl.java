@@ -64,7 +64,7 @@ public class BusinessServiceImpl implements IBusinessService {
             throw e;
         } finally {
             // 将程序退出
-            KeepAlive.exit();
+            // KeepAlive.exit();
         }
     }
 }
