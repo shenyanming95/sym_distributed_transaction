@@ -17,8 +17,8 @@ public class BusinessApplication {
                 new AnnotationConfigApplicationContext(DubboBusinessConfiguration.class);
         IBusinessService businessService = applicationContext.getBean(IBusinessService.class);
         // 执行业务接口
-        businessService.purchase("a0001", 40);
+        businessService.purchase("a001", 10);
         // 保持运行直至业务方法执行完
-        KeepAlive.sync();
+        // KeepAlive.sync();
     }
 }

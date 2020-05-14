@@ -1,15 +1,11 @@
 package com.sym.domain;
 
+import com.sym.util.LocalDateTimeAttributeConverter;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
@@ -27,7 +23,7 @@ public class Commodity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(name = "commodity_code")
     private String commodityCode;
@@ -41,10 +37,12 @@ public class Commodity {
     @Column(name = "stock")
     private int stock;
 
-    @Column(name = "create_time")
+    @Column(name = "create_time", columnDefinition="timestamp")
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
     private LocalDateTime createTime;
 
-    @Column(name = "update_time")
+    @Column(name = "update_time", columnDefinition="timestamp")
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
     private LocalDateTime updateTime;
 
 }
