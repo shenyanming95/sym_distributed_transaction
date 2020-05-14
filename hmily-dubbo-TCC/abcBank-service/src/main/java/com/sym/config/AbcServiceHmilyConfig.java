@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Lazy;
  * @date 2020/5/14 21:57.
  */
 @Configuration
-@Lazy
 public class AbcServiceHmilyConfig {
 
     /**
