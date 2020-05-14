@@ -65,6 +65,12 @@
             <version>${curator.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.42.Final</version>
+        </dependency>
+
         <!-- for spring-data-jpa -->
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -108,11 +114,11 @@
         </dependency>
 
         <!-- for logback -->
-<!--        <dependency>-->
-<!--            <groupId>org.slf4j</groupId>-->
-<!--            <artifactId>log4j-over-slf4j</artifactId>-->
-<!--            <version>${slf4j-api.version}</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+            <version>${slf4j-api.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
