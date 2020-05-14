@@ -1,51 +1,25 @@
 package com.sym.config;
 
-import com.alibaba.dubbo.config.ApplicationConfig;
-import com.alibaba.dubbo.config.ProtocolConfig;
-import com.alibaba.dubbo.config.RegistryConfig;
-import com.alibaba.dubbo.config.ServiceConfig;
-import com.alibaba.dubbo.config.spring.context.annotation.DubboComponentScan;
-import com.sym.api.IAbcBank;
-import com.sym.service.AbcBankImpl;
 import org.dromara.hmily.common.config.HmilyRedisConfig;
+import org.dromara.hmily.common.enums.RepositorySupportEnum;
 import org.dromara.hmily.core.bootstrap.HmilyTransactionBootstrap;
 import org.dromara.hmily.core.service.HmilyInitService;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 
 /**
+ * ABC Bank, hmily配置
+ *
  * @author shenyanming
- * Created on 2020/5/14 17:24
+ * @date 2020/5/14 21:57.
  */
 @Configuration
-@ComponentScan("com.sym")
-@DubboComponentScan("com.sym.service")
-public class AbcServiceConfiguration {
-
-    @Bean
-    public ApplicationConfig applicationConfig(){
-        return new ApplicationConfig("abc-bank-service");
-    }
-
-    @Bean
-    public RegistryConfig registryConfig(){
-        return new RegistryConfig("zookeeper://127.0.0.1:2181");
-    }
-
-    @Bean
-    public ProtocolConfig protocolConfig(){
-        return new ProtocolConfig("dubbo", 21811);
-    }
-
-
-
-
+@Lazy
+public class AbcServiceHmilyConfig {
 
     /**
-     * hmily配置
-     * @param hmilyInitService
-     * @return
+     * hmily启动配置
      */
     @Bean
     public HmilyTransactionBootstrap hmilyTransactionBootstrap(HmilyInitService hmilyInitService){
@@ -67,17 +41,15 @@ public class AbcServiceConfiguration {
         // 异步执行confirm和cancel线程池线程的大小，高并发的时候请调大
         bootstrap.setAsyncThreads(32);
         //
-        bootstrap.setRepositorySupport("db");
+        bootstrap.setRepositorySupport(RepositorySupportEnum.REDIS.getSupport());
         bootstrap.setHmilyRedisConfig(hmilyRedisConfig());
         return bootstrap;
     }
-    /* hmily end */
-
 
     /**
-     * hmily事务存储配置
-     * @return
+     * hmily自身事务日志配置, 用redis存储
      */
+    @Bean
     public HmilyRedisConfig hmilyRedisConfig(){
         HmilyRedisConfig config = new HmilyRedisConfig();
         config.setHostName("127.0.0.1");

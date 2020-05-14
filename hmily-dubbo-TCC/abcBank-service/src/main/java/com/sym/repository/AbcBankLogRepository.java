@@ -14,9 +14,6 @@ public interface AbcBankLogRepository extends CrudRepository<AbcBankLog, Long> {
 
     /**
      * 判断阶段日志是否存在
-     * @param serialNumber
-     * @param operationType
-     * @return
      */
     boolean existsBySerialNumberAndOperationType(String serialNumber, OperationType operationType);
 }

@@ -11,8 +11,6 @@ public interface AbcAccountRepository extends CrudRepository<AbcAccount, Integer
 
     /**
      * 手机号定位用户
-     * @param cellphone
-     * @return
      */
     AbcAccount findByCellphone(String cellphone);
 }

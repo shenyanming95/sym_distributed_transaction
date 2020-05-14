@@ -1,13 +1,11 @@
 package com.sym.domain;
 
+import com.sym.converter.LocalDateTimeAttributeConverter;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -52,6 +50,7 @@ public class AbcAccount {
     /**
      * 修改时间
      */
-    @Column(name = "update_time")
+    @Column(name = "update_time", columnDefinition = "timestamp")
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
     private LocalDateTime updateTime;
 }
