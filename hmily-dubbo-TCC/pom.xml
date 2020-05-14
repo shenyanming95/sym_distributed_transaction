@@ -10,6 +10,7 @@
     <modules>
         <module>facade</module>
         <module>abcBank-service</module>
+        <module>icbcBank-service</module>
     </modules>
     <packaging>pom</packaging>
 
