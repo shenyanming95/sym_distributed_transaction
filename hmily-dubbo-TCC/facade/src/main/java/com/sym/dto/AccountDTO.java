@@ -1,5 +1,9 @@
 package com.sym.dto;
 
+import lombok.Data;
+import lombok.ToString;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -9,18 +13,28 @@ import java.math.BigDecimal;
  * @author shenyanming
  * Created on 2020/5/13 17:02
  */
+@Data
+@ToString
+@Accessors(chain = true)
 public class AccountDTO implements Serializable {
     private static final long serialVersionUID = -2439851350653188771L;
 
     /**
-     * 对方手机号
+     * 流水号
      */
-    private String cellPhone;
+    private String serialNumber;
 
     /**
-     * 对方银行编码
+     * 手机号
      */
-    private String bankCode;
+    private String cellPhoneFrom;
+    private String cellPhoneTo;
+
+    /**
+     * 银行编号
+     */
+    private String bankCodeFrom;
+    private String bankCodeTo;
 
     /**
      * 转账金额

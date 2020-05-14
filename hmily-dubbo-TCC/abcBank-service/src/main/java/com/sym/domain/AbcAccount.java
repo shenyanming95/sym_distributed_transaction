@@ -4,6 +4,10 @@ import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -16,9 +20,12 @@ import java.time.LocalDateTime;
 @Data
 @ToString
 @Accessors(chain = true)
+@Entity
+@Table(name = "t_account")
 public class AbcAccount {
 
-    private int id;
+    @Id
+    private long id;
 
     /**
      * 用户手机号
@@ -28,20 +35,23 @@ public class AbcAccount {
     /**
      * 用户姓名
      */
-    private String userName;
+    private String username;
 
     /**
      * 总余额
      */
+    @Column(name = "total_balance")
     private BigDecimal totalBalance;
 
     /**
      * 冻结金额
      */
+    @Column(name = "frozen_balance")
     private BigDecimal frozenBalance;
 
     /**
      * 修改时间
      */
+    @Column(name = "update_time")
     private LocalDateTime updateTime;
 }
