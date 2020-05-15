@@ -28,3 +28,6 @@ CREATE TABLE `t_log`  (
   `create_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- 插入账户信息
+INSERT INTO `abc_bank`.`t_account`(`cellphone`, `username`, `total_balance`, `frozen_balance`, `update_time`) VALUES ('12580', 'zhangsan', 1000, 0, now());
