@@ -6,6 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
+ * JPA CrudRepository
+ *
  * @author shenyanming
  * Created on 2020/5/14 17:39
  */

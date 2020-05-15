@@ -18,9 +18,10 @@ import java.io.IOException;
  */
 @Configuration
 @ComponentScan({"com.sym","org.dromara.hmily.*"})
-@EnableAspectJAutoProxy
-@EnableJpaRepositories("com.sym.repository")
-@EnableTransactionManagement
+// Hmily不能用jdk动态代理, 不然@Hmily会失效(JDK动态代理没办法获取接口实现类上的注解信息)
+@EnableAspectJAutoProxy(proxyTargetClass = true)
+//@EnableJpaRepositories("com.sym.repository")
+//@EnableTransactionManagement
 public class AbcBankApplication {
     public static void main(String[] args) throws IOException {
         // 启动服务

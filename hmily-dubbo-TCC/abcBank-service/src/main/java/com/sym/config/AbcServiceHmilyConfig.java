@@ -27,7 +27,7 @@ public class AbcServiceHmilyConfig {
         // 定时任务延迟时间（单位是秒，默认120。这个参数只是要大于你的rpc调用的超时时间设置
         bootstrap.setRecoverDelayTime(120);
         // 最大重复次数，默认3次。当你的服务down机，定时任务会执行retryMax次数去执行你的cancel还是confrim。
-        bootstrap.setRetryMax(3);
+        bootstrap.setRetryMax(1);
         bootstrap.setLoadFactor(2);
         bootstrap.setScheduledDelay(120);
         bootstrap.setScheduledThreadMax(4);

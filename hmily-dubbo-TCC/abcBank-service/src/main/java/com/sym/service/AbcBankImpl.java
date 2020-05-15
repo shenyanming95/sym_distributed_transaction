@@ -2,20 +2,12 @@ package com.sym.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.sym.api.IAbcBank;
-import com.sym.domain.AbcAccount;
-import com.sym.domain.AbcBankLog;
 import com.sym.dto.AccountDTO;
-import com.sym.enums.OperationType;
-import com.sym.repository.AbcAccountRepository;
-import com.sym.repository.AbcBankLogRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.hmily.annotation.Hmily;
+import org.dromara.hmily.common.bean.context.HmilyTransactionContext;
 import org.dromara.hmily.core.concurrent.threadlocal.HmilyTransactionContextLocal;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 /**
  * TCC模式实现类, 必须要解决TCC协议分布式事务的三个问题：
@@ -30,11 +22,11 @@ import java.time.LocalDateTime;
 @Service
 public class AbcBankImpl implements IAbcBank {
 
-    @Autowired
-    private AbcAccountRepository abcAccountRepository;
+//    @Autowired
+//    private AbcAccountRepository abcAccountRepository;
 
-    @Autowired
-    private AbcBankLogRepository abcBankLogRepository;
+//    @Autowired
+//    private AbcBankLogRepository abcBankLogRepository;
 
     /**
      * 相当于TCC模式下的try接口,需要解决悬挂。
@@ -47,27 +39,26 @@ public class AbcBankImpl implements IAbcBank {
     @Hmily(confirmMethod = "addMoney", cancelMethod = "reduceMoney")
     @Transactional(rollbackFor = Exception.class)
     public boolean transferIn(AccountDTO accountDTO) {
-        log.info("【ABC-try操作】参数信息: {}", accountDTO);
+        HmilyTransactionContext context = HmilyTransactionContextLocal.getInstance().get();
+        log.info("【ABC-try操作】参数信息: {}, 事务上下文：{}", accountDTO, context);
 
-        String transId = HmilyTransactionContextLocal.getInstance().get().getTransId();
-        String serialNumber = accountDTO.getSerialNumber();
-
+        // String serialNumber = accountDTO.getSerialNumber();
 
         // 防止TCC悬挂
-        if(abcBankLogRepository.existsBySerialNumberAndOperationType(serialNumber, OperationType.CANCEL)){
+        /*if(abcBankLogRepository.existsBySerialNumberAndOperationType(serialNumber, OperationType.CANCEL)){
             log.info("【ABC-try操作】发生悬挂, 参数信息：{}, 事务ID: {}", accountDTO, transId);
             return false;
-        }
+        }*/
 
         // 将入账的钱保存到用户的冻结金额上
-        AbcAccount abcAccount = abcAccountRepository.findByCellphone(accountDTO.getCellPhoneTo());
+        /*AbcAccount abcAccount = abcAccountRepository.findByCellphone(accountDTO.getCellPhoneTo());
         BigDecimal oldFrozenBalance = abcAccount.getFrozenBalance();
         abcAccount.setFrozenBalance(oldFrozenBalance.add(accountDTO.getAmount()))
                 .setUpdateTime(LocalDateTime.now());
-        abcAccountRepository.save(abcAccount);
+        abcAccountRepository.save(abcAccount);*/
 
         // 同时插入try操作日志
-        AbcBankLog log = new AbcBankLog();
+        /*AbcBankLog log = new AbcBankLog();
         log.setCellphone(abcAccount.getCellphone())
                 .setCurrentFrozenBalance(oldFrozenBalance)
                 .setCurrentTotalBalance(abcAccount.getTotalBalance())
@@ -76,8 +67,7 @@ public class AbcBankImpl implements IAbcBank {
                 .setUsername(abcAccount.getUsername())
                 .setOperationType(OperationType.TRY)
                 .setCreateTime(LocalDateTime.now());
-        abcBankLogRepository.save(log);
-
+        abcBankLogRepository.save(log);*/
         return true;
     }
 
@@ -90,18 +80,18 @@ public class AbcBankImpl implements IAbcBank {
      */
     @Transactional(rollbackFor = Exception.class)
     public boolean addMoney(AccountDTO accountDTO){
-        log.info("【ABC-confirm操作】参数信息: {}", accountDTO);
-        String transId = HmilyTransactionContextLocal.getInstance().get().getTransId();
-        String serialNumber = accountDTO.getSerialNumber();
+        log.info("【ABC-confirm操作】参数信息: {}, 事务上下文：{}", accountDTO,
+                HmilyTransactionContextLocal.getInstance().get());
+//        String serialNumber = accountDTO.getSerialNumber();
 
         // 幂等控制
-        if(abcBankLogRepository.existsBySerialNumberAndOperationType(serialNumber, OperationType.CONFIRM)){
+        /*if(abcBankLogRepository.existsBySerialNumberAndOperationType(serialNumber, OperationType.CONFIRM)){
             log.info("【ABC-confirm操作】发生重复提交, 事务ID：{}", transId);
             return false;
-        }
+        }*/
 
         // 把冻结的钱添加到用户的总金额上
-        BigDecimal amount = accountDTO.getAmount();
+        /*BigDecimal amount = accountDTO.getAmount();
 
         AbcAccount abcAccount = abcAccountRepository.findByCellphone(accountDTO.getCellPhoneTo());
         BigDecimal oldTotalBalance = abcAccount.getTotalBalance();
@@ -111,10 +101,10 @@ public class AbcBankImpl implements IAbcBank {
                 .setFrozenBalance(oldFrozenBalance.subtract(amount))
                 .setUpdateTime(LocalDateTime.now());
 
-        abcAccountRepository.save(abcAccount);
+        abcAccountRepository.save(abcAccount);*/
 
         // 新增日志
-        AbcBankLog log = new AbcBankLog();
+        /*AbcBankLog log = new AbcBankLog();
         log.setCellphone(abcAccount.getCellphone())
                 .setCurrentFrozenBalance(oldFrozenBalance)
                 .setCurrentTotalBalance(oldTotalBalance)
@@ -123,7 +113,7 @@ public class AbcBankImpl implements IAbcBank {
                 .setUsername(abcAccount.getUsername())
                 .setOperationType(OperationType.CONFIRM)
                 .setCreateTime(LocalDateTime.now());
-        abcBankLogRepository.save(log);
+        abcBankLogRepository.save(log);*/
 
         return true;
     }
@@ -136,36 +126,37 @@ public class AbcBankImpl implements IAbcBank {
      * @return true-操作成功
      */
     public boolean reduceMoney(AccountDTO accountDTO){
-        log.info("【ABC-cancel操作】参数信息: {}", accountDTO);
+        log.info("【ABC-cancel操作】参数信息: {}, 事务上下文：{}", accountDTO,
+                HmilyTransactionContextLocal.getInstance().get());
 
-        String transId = HmilyTransactionContextLocal.getInstance().get().getTransId();
-        String serialNumber = accountDTO.getSerialNumber();
+
+//        String serialNumber = accountDTO.getSerialNumber();
 
         // 防止空回滚
-        if(!abcBankLogRepository.existsBySerialNumberAndOperationType(serialNumber, OperationType.TRY)){
+        /*if(!abcBankLogRepository.existsBySerialNumberAndOperationType(serialNumber, OperationType.TRY)){
             // 如果try操作都未执行, 那么canel被回调了就是空回滚,
             log.info("【ABC-cancel操作】发生空回滚, 事务ID:{}", transId);
             return false;
-        }
+        }*/
 
         // 幂等
-        if(abcBankLogRepository.existsBySerialNumberAndOperationType(serialNumber, OperationType.CANCEL)){
+        /*if(abcBankLogRepository.existsBySerialNumberAndOperationType(serialNumber, OperationType.CANCEL)){
             log.info("【ABC-cancel操作】发生重复提交, 事务ID: {}", transId);
             return false;
-        }
+        }*/
 
         // 回滚
-        AbcAccount abcAccount = abcAccountRepository.findByCellphone(accountDTO.getCellPhoneFrom());
+       /* AbcAccount abcAccount = abcAccountRepository.findByCellphone(accountDTO.getCellPhoneFrom());
 
         BigDecimal totalBalance = abcAccount.getTotalBalance();
         BigDecimal frozenBalance = abcAccount.getFrozenBalance();
         BigDecimal amount = accountDTO.getAmount();
 
         abcAccount.setFrozenBalance(frozenBalance.subtract(amount)).setUpdateTime(LocalDateTime.now());
-        abcAccountRepository.save(abcAccount);
+        abcAccountRepository.save(abcAccount);*/
 
         // 日志记录
-        AbcBankLog log = new AbcBankLog();
+        /*AbcBankLog log = new AbcBankLog();
         log.setCellphone(abcAccount.getCellphone())
                 .setCurrentFrozenBalance(frozenBalance)
                 .setCurrentTotalBalance(totalBalance)
@@ -174,7 +165,7 @@ public class AbcBankImpl implements IAbcBank {
                 .setUsername(abcAccount.getUsername())
                 .setOperationType(OperationType.CANCEL)
                 .setCreateTime(LocalDateTime.now());
-        abcBankLogRepository.save(log);
+        abcBankLogRepository.save(log);*/
 
         return true;
     }

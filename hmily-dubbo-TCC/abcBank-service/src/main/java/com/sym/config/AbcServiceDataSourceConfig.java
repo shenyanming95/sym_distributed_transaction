@@ -3,7 +3,6 @@ package com.sym.config;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -17,12 +16,13 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * 数据库配置
+ * 数据源和JPA配置
+ * ()
  *
  * @author shenyanming
  * @date 2020/5/14 22:04.
  */
-@Configuration
+//@Configuration
 public class AbcServiceDataSourceConfig {
 
     /**
