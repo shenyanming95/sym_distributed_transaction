@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
  * @author shenyanming
  * Created on 2020/5/14 17:39
  */
-@Repository
+//@Repository
 public interface IcbcBankLogRepository extends CrudRepository<IcbcBankLog, Long> {
 
     /**

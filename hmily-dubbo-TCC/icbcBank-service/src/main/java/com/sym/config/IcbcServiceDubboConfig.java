@@ -27,9 +27,4 @@ public class IcbcServiceDubboConfig {
         return new RegistryConfig("zookeeper://127.0.0.1:2181");
     }
 
-    @Bean
-    public ProtocolConfig protocolConfig(){
-        return new ProtocolConfig("dubbo", 10013);
-    }
-
 }

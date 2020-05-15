@@ -36,6 +36,7 @@ public class IcbcServiceHmilyConfig {
         // distuptor消费线程数量,高并发的时候，可以调大。
         bootstrap.setConsumerThreads(32);
         // 发起方的时候，把此属性设置为true。参与方为false。
+        // 这边的业务是因为由它发起一次转账，所以它是发起方
         bootstrap.setStarted(true);
         // 异步执行confirm和cancel线程池线程的大小，高并发的时候请调大
         bootstrap.setAsyncThreads(32);

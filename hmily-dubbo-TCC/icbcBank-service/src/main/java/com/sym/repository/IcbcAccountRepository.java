@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * @author shenyanming
  * Created on 2020/5/13 17:35
  */
-@Repository
+//@Repository
 public interface IcbcAccountRepository extends CrudRepository<IcbcAccount, Integer> {
 
     /**

@@ -17,12 +17,12 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * 数据库配置
+ * 数据库和JPA配置
  *
  * @author shenyanming
  * @date 2020/5/14 22:04.
  */
-@Configuration
+//@Configuration
 public class IcbcServiceDataSourceConfig {
 
     /**
