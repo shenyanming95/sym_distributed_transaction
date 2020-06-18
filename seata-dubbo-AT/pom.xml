@@ -35,7 +35,7 @@
         <java.persistence.version>1.0.0.Final</java.persistence.version>
         <curator.version>2.13.0</curator.version>
         <druid.version>1.1.12</druid.version>
-        <jackson.version>2.9.10.3</jackson.version>
+        <jackson.version>2.10.0.pr1</jackson.version>
         <dubbo.version>2.6.8</dubbo.version>
         <seata.version>1.0.0</seata.version>
     </properties>
