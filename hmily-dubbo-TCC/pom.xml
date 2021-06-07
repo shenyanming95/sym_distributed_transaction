@@ -26,7 +26,7 @@
         <hibernate.version>4.3.9.Final</hibernate.version>
         <java.persistence.version>1.0.0.Final</java.persistence.version>
         <slf4j-api.version>1.7.22</slf4j-api.version>
-        <logback-classic.version>1.1.6</logback-classic.version>
+        <logback-classic.version>1.2.0</logback-classic.version>
         <mysql-connector.version>5.1.44</mysql-connector.version>
         <hikari.version>3.4.5</hikari.version>
         <junit.version>4.12</junit.version>
